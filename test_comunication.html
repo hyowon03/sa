@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title> 
+    <link rel="stylesheet" href="./home.css">
+    <style>
+        button {   
+            background-color: #4c4b4b;  
+            color: #ffffff;               
+            padding: 5px 10px;
+            font-size: 16px;
+        }
+        button {
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #4c4b4b;
+            color: #ffffff;
+            padding: 5px 10px;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        p {
+            background-color: #4c4b4b;
+            width: 100%;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color:#ffffff;
+        }
+
+        header {
+            background-color: #313131;
+            color: #ffffff;
+            padding: 30px;
+            
+        }
+
+        header h1 {
+            margin: 0;
+            padding: 0;
+            font-size: 24px;
+            
+        }
+
+        h2 {
+            margin-top: 1px;
+            margin-bottom: 60px;
+            display: flex;
+            justify-content: center;
+            /*background-color: #ffffff;*/
+        }
+
+            main {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    }
+
+        #commentForm {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        #commentForm input[type="text"] {
+            width: 300px;
+            padding: 5px;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        #commentForm button {
+            padding: 5px 10px;
+            font-size: 16px;
+        }
+
+        .comment {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .comment p {
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .comment .actions {
+            margin-top: 10px;
+        }
+        
+        .comment .actions button {
+            padding: 2px 5px;
+            font-size: 14px;
+            margin-right: 5px;
+        }
+        footer p {
+        text-align: center;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="http://127.0.0.1:5500/index.html">Home</a></li>
+                <li><a href="http://127.0.0.1:5500/test_training.html#home">training</a></li>
+                <li><a href="http://127.0.0.1:5500/test_comunication.html">comunication</a></li>
+                <li><a href="https://map.naver.com/v5/search/%EC%A0%84%EC%82%AC%EC%B2%B4%EC%9C%A1%EA%B4%80/place/11717738?placePath=%3Fentry=pll%26from=nx%26fromNxList=true&c=15,0,0,0,dh">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+<body>
+    <main>
+        <h2><b>NO KICK NO LIFE</b></h2>
+        <img src="https://th.bing.com/th/id/R.ee4710a3034b226ed55c669498ed0836?rik=8nhhLGK99QE4RQ&riu=http%3a%2f%2fwww.nationalenquirer.com%2fwp-content%2fuploads%2f2016%2f06%2fmuhammad-ali-parkinsons-diagnosis-7.jpg&ehk=D4OsVHlG1canZ51K%2b9L9N0nzhfMMlcMYTTUC8qdFQTg%3d&risl=&pid=ImgRaw&r=0">
+        <h2><b>"Boxers only fight in the ring"</b></h2>
+        <div id="commentForm"> 
+            <input type="text" id="commentInput">
+            <button onclick="addComment()">댓글 작성</button> &nbsp&nbsp&nbsp&nbsp
+            <input type="text" id="searchInput">  
+            <button onclick="searchComment()">댓글 검색</button>
+        </div>
+        <div id="commentList">
+        </div>
+    </main>
+    <script>
+        // 댓글 목록을 저장할 배열
+        var comments = [];
+        
+        // 댓글 생성 함수
+        function addComment() {
+            var commentInput = document.getElementById("commentInput");
+            var comment = commentInput.value;
+            if (comment !== "") {
+                comments.push(comment);
+                renderComments();
+                commentInput.value = "";
+            }
+        }
+
+        // 댓글 삭제 함수
+        function deleteComment(index) {
+            comments.splice(index, 1);
+            renderComments();
+        }
+
+        // 댓글 검색 함수
+        function searchComment() {
+            var searchInput = document.getElementById("searchInput");
+            var keyword = searchInput.value;
+            var searchResult = comments.filter(function(comment) {
+                return comment.includes(keyword);
+            });
+            renderComments(searchResult);
+        }
+
+        // 댓글 수정 함수
+        function editComment(index) {
+            var newComment = prompt("댓글을 수정하세요:");
+            if (newComment !== null && newComment !== "") {
+                comments[index] = newComment;
+                renderComments();
+            }
+        }
+
+        // 댓글 목록을 화면에 출력하는 함수
+        function renderComments(commentsToRender) {
+            var commentList = document.getElementById("commentList");
+            commentList.innerHTML = "";
+
+            var commentsToShow = commentsToRender || comments;
+
+            for (var i = 0; i < commentsToShow.length; i++) {
+                var commentItem = document.createElement("div");
+                commentItem.className = "comment";
+
+                var commentText = document.createElement("p");
+                commentText.textContent = commentsToShow[i];
+                commentItem.appendChild(commentText);
+                
+                var actions = document.createElement("div");
+                actions.className = "actions";
+
+                var deleteButton = document.createElement("button");
+                deleteButton.textContent = "삭제";
+                deleteButton.setAttribute("onclick", "deleteComment(" + i + ")");
+                actions.appendChild(deleteButton);
+
+                var editButton = document.createElement("button");
+                editButton.textContent = "수정";
+                editButton.setAttribute("onclick", "editComment(" + i + ")");
+                actions.appendChild(editButton);
+
+                commentItem.appendChild(actions);
+
+                commentList.appendChild(commentItem);
+            }
+        }
+    </script>
+    <footer>
+        <p>&copy; 2022 junsa Kickboxing Gym. All rights reserved.</p>
+    </footer>
+
+    </body>
